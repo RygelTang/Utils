@@ -1,0 +1,58 @@
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+ext {
+    application_id = "rygel.cn.utils"
+    compileSdkVersion = 28
+    buildToolsVersion = "28.0.0"
+    minSdkVersion = 16
+    targetSdkVersion = 28
+    versionCode = 1
+    versionName = "1.0.0"
+
+    siteUrl = 'https://github.com/RygelTang'    // project homepage
+    gitUrl = 'https://github.com/RygelTang/Utils.git' // project git
+
+    group = "cn.rygel.utils"
+
+    component_name = "A calendar utils for Android!"
+
+    package_type = "aar"
+    // TODO 需要修改Repository时修改这个即可
+    repo = "CalendarUtils"
+
+    bintray_user = properties.getProperty("bintray.user")
+    bintray_key = properties.getProperty("bintray.apikey")
+
+    license = [
+            name                : "The Apache Software License, Version 2.0",
+            url                 : "http://www.apache.org/licenses/LICENSE-2.0.txt"
+    ]
+
+    developer = [
+            id                  : "rygel",
+            name                : "cn.rygel",
+            email               : "rygel.tang@gmail.com"
+    ]
+
+    def versions = [
+            support             : "28.0.0",
+            constraint          : "1.1.3",
+            junit               : "4.12",
+            runner              : "1.0.2",
+            espresso            : "3.0.2"
+    ]
+
+    support = [
+            appcompat           : "com.android.support:appcompat-v7:${versions.support}",
+            constraint          : "com.android.support.constraint:constraint-layout:${versions.constraint}"
+    ]
+
+    test = [
+            runner                :  "com.android.support.test:runner:${versions.runner}",
+            espresso              : "com.android.support.test.espresso:espresso-core:${versions.espresso}"
+    ]
+
+    junit = "junit:junit:${versions.junit}"
+
+}

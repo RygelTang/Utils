@@ -1,0 +1,80 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def ext = rootProject.ext
+
+group = ext.group
+version = ext.versionName
+
+//打包javadocjar和sourcejar
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    //增加编码，这行很重要，如果是windows系统，同时如果在代码中有中文的话，不加这行，上传会报错
+    options.encoding="utf-8"
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+tasks.getByPath(":calendar:javadoc").enabled = false
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+//定义pom并打包aar
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging ext.package_type
+                name ext.component_name
+                url ext.siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name ext.license.name
+                        url ext.license.url
+                    }
+                }
+                developers {
+                    developer { //填写的一些基本信息
+                        id ext.developer.id
+                        name ext.developer.name
+                        email ext.developer.email
+                    }
+                }
+                scm {
+                    connection ext.gitUrl
+                    developerConnection ext.gitUrl
+                    url ext.siteUrl
+                }
+            }
+        }
+    }
+}
+
+//配置bintray参数
+bintray {
+    user = ext.bintray_user
+    key = ext.bintray_key
+    configurations = ['archives']
+    pkg {
+        repo = ext.repo               //跟上面创建的Maven仓库名字保持一致
+        name = ext.repo               //发布到JCenter上的项目名字
+        websiteUrl = ext.siteUrl
+        vcsUrl = ext.gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

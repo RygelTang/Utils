@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+def ext = rootProject.ext
+
+android {
+    compileSdkVersion ext.compileSdkVersion
+    defaultConfig {
+        applicationId ext.application_id
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
+        versionCode ext.versionCode
+        versionName ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation ext.support.appcompat
+    implementation ext.support.constraint
+    testImplementation ext.junit
+    androidTestImplementation ext.test.runner
+    androidTestImplementation ext.test.espresso
+}
