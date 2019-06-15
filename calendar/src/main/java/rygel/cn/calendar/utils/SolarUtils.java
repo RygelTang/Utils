@@ -3,6 +3,7 @@ package rygel.cn.calendar.utils;
 import rygel.cn.calendar.bean.Solar;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * 公历相关计算工具类
@@ -20,6 +21,7 @@ public class SolarUtils {
      */
     public static Solar today() {
         Calendar today = Calendar.getInstance();
+        today.setTimeZone(TimeZone.getDefault());
         return new Solar(today.get(Calendar.YEAR),today.get(Calendar.MONTH) + 1,today.get(Calendar.DATE));
     }
 

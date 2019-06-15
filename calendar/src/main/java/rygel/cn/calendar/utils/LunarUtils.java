@@ -239,23 +239,12 @@ public class LunarUtils {
      * @param index 将要计算的月份的index
      * @return 传回农历 year年month月的总天数
      */
-    private static int daysInLunarMonth(int year, int index) {
+    public static int daysInLunarMonth(int year, int index) {
         if ((LUNAR_INFO[year - MIN_YEAR] & (0x100000 >> index)) == 0) {
             return 29;
         } else {
             return 30;
         }
-    }
-
-    /**
-     * 判断传入的月份是否是闰月
-     *
-     * @param year 将要计算的年份
-     * @param month 将要计算的月
-     * @return 如果是闰月返回true,否则返回false
-     */
-    public static boolean isLeapMonth(int year, int month) {
-        return getLeapMonth(year) == month;
     }
 
     /**
@@ -265,8 +254,8 @@ public class LunarUtils {
      * @param year 将要计算的年份
      * @return 传回农历 year年闰哪个月1-12, 没闰传回 0
      */
-    private static int getLeapMonth(int year) {
-        return (LUNAR_INFO[year - MIN_YEAR] & 0xF00000) >> 20;
+    public static int getLeapMonth(int year) {
+        return (LUNAR_INFO[year - MIN_YEAR + 1] & 0xF00000) >> 20;
     }
 
     private static int getBitInt(int data, int length, int shift) {
